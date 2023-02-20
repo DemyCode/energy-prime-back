@@ -1,5 +1,8 @@
 """Database connection and creation of tables."""
+from typing import Generator
+
 from sqlalchemy import create_engine
+from sqlmodel import Session
 
 from app.config import settings
 
@@ -13,3 +16,9 @@ engine = create_engine(
     # pool_size=settings.DATABASE_POOL_SIZE,
     # max_overflow=settings.DATABASE_MAX_OVERFLOW,
 )
+
+
+def get_session() -> Generator[Session, None, None]:
+    """Get a database session."""
+    with Session(engine) as session:  # type: ignore
+        yield session

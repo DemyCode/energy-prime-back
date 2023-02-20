@@ -1,21 +1,22 @@
 """Main module for the FastAPI application."""
 from pathlib import Path
 
-from fastapi import FastAPI
+from fastapi import Depends, FastAPI
 from loguru import logger
 from sqlmodel import Session, select
 
 from alembic import command
 from alembic.config import Config
 from app.config import settings
-from app.db.db import engine
+from app.db.db import engine, get_session
 from app.db.models import User
 
 app = FastAPI()
 
 
 @app.on_event("startup")
-def alembic_upgrade():
+def alembic_upgrade() -> None:
+    """Upgrade the database to the latest version."""
     logger.info("Attempting to upgrade alembic on startup")
     try:
         alembic_ini_path = Path(__file__).parent.parent / "alembic.ini"
@@ -27,28 +28,27 @@ def alembic_upgrade():
         logger.exception("Alembic upgrade failed on startup")
 
 
-@app.get("/")
+@app.get("/", response_model=dict[str, str])
 def root() -> dict[str, str]:
     """Root endpoint for the FastAPI application."""
     return {"msg": "Hello World"}
 
 
-@app.get("/ping")
+@app.get("/ping", response_model=dict[str, str])
 async def ping() -> dict[str, str]:
     """Ping endpoint for the FastAPI application."""
     return {"ping": "pong"}
 
 
-@app.get("/users")
-async def get_users() -> list[User]:
+@app.get("/users", response_model=list[User])
+async def get_users(session: Session = Depends(get_session)) -> list[User]:
     """Get all users."""
-    with Session(engine) as session:  # type: ignore
-        heroes = session.exec(select(User)).all()
-        return heroes
+    heroes = session.exec(select(User)).all()
+    return heroes
 
 
-@app.post("/users/")
-def create_hero(user: User) -> User:
+@app.post("/users/", response_model=User)
+def create_user(user: User, session: Session = Depends(get_session)) -> User:
     """Create a new user."""
     with Session(engine) as session:  # type: ignore
         session.add(user)
