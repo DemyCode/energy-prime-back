@@ -15,6 +15,7 @@ httpx = "^0.23.3"
 starlette = "^0.25.0"
 pydantic = "^1.10.4"
 alembic = "^1.9.4"
+psycopg2 = "^2.9.5"
 
 
 [tool.poetry.group.dev.dependencies]
