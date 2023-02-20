@@ -1,6 +1,6 @@
 """Application configuration."""
-from typing import Optional
 from functools import reduce
+from typing import Optional
 
 from pydantic import BaseSettings, validator
 
@@ -8,8 +8,8 @@ from pydantic import BaseSettings, validator
 class Settings(BaseSettings):
     """Application settings."""
 
-    PROJECT_NAME: str = "Job Board"
-    PROJECT_VERSION: str = "1.0.0"
+    PROJECT_NAME: str
+    PROJECT_VERSION: str
 
     POSTGRES_USER: Optional[str]
     POSTGRES_PASSWORD: Optional[str]
@@ -48,4 +48,4 @@ class Settings(BaseSettings):
         env_file = ".env"
 
 
-settings = Settings()
+settings = Settings(PROJECT_NAME="FastAPI", PROJECT_VERSION="0.1.0")  # type: ignore

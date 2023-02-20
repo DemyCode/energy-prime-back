@@ -29,7 +29,7 @@ repos:
     rev: v0.991
     hooks:
       - id: mypy
-        additional_dependencies: [pytest, pytest-bdd]
+        additional_dependencies: [pytest, sqlalchemy, sqlmodel, fastapi]
 
   - repo: https://github.com/pycqa/flake8
     rev: 6.0.0
