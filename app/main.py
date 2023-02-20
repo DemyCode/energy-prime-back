@@ -1,20 +1,21 @@
+"""Main module for the FastAPI application."""
 from fastapi import FastAPI
-
-from app.config import settings
 
 app = FastAPI()
 
 
 @app.get("/")
-def root():
+def root() -> dict[str, str]:
+    """Root endpoint for the FastAPI application."""
     return {"msg": "Hello World"}
 
 
 @app.get("/ping")
-async def ping():
+async def ping() -> dict[str, str]:
+    """Ping endpoint for the FastAPI application."""
     return {"ping": "pong"}
 
 
-@app.get("/db")
-def db():
-    return {"db": settings.DATABASE_URL}
+def function() -> None:
+    """Function docstring."""
+    pass

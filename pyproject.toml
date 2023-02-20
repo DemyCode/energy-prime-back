@@ -13,14 +13,61 @@ uvicorn = { extras = ["standard"], version = "^0.20.0" }
 sqlmodel = "^0.0.8"
 httpx = "^0.23.3"
 starlette = "^0.25.0"
+pydantic = "^1.10.4"
 
 
 [tool.poetry.group.dev.dependencies]
-flake8 = "^6.0.0"
 black = "^23.1.0"
-pyclean = "^2.6.0"
+flake8 = "^6.0.0"
+coverage = "^7.0.5"
 pytest = "^7.2.1"
+pre-commit = "^2.21.0"
+commitizen = "^2.40.0"
+mypy = "^0.991"
+bandit = "^1.7.4"
+pydocstyle = "^6.3.0"
+
+[tool.coverage.run]
+source = ["safeworld_data"]
+omit = ["__tests__/*", ".venv/*", ".pytest_cache/*"]
+dynamic_context = "test_function"
+
+[tool.coverage.report]
+fail_under = 80
+
+[tool.black]
+line-length = 120
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.git
+  | \.mypy_cache
+  | \.pytest_cache
+  | \.nox
+  | _build
+  | build
+  | dist
+  | htmlcov
+  | venv
+  | .venv
+)/
+'''
+
+[tool.mypy]
+exclude = ".venv"
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.semantic_release]
+version_variable = [
+  "pyproject.toml:version",
+  "safeworld_data/__version__.py:__VERSION__",
+]
+branch = "main"
+upload_to_repository = false
+upload_to_release = true
+build_command = "pip install poetry && poetry build"
+commit_author = "energy-prime-back Build Service"
+repository = "energy-prime-back"
