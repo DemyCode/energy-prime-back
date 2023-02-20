@@ -1,0 +1,26 @@
+[tool.poetry]
+name = "energy-prime-back"
+version = "0.1.0"
+description = ""
+authors = ["DemyCode <verycols@gmail.com>"]
+readme = "README.md"
+# packages = [{ include = "energy_prime_back" }]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+fastapi = "^0.92.0"
+uvicorn = { extras = ["standard"], version = "^0.20.0" }
+sqlmodel = "^0.0.8"
+httpx = "^0.23.3"
+starlette = "^0.25.0"
+
+
+[tool.poetry.group.dev.dependencies]
+flake8 = "^6.0.0"
+black = "^23.1.0"
+pyclean = "^2.6.0"
+pytest = "^7.2.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
