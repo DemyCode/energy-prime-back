@@ -1,15 +1,15 @@
 """Database connection and creation of tables."""
 from sqlalchemy import create_engine
-from sqlmodel import SQLModel
 
 from app.config import settings
 
 if settings.DATABASE_URL is None:
     raise ValueError("Database not properly configured. Please check your .env file.")
 
-engine = create_engine(settings.DATABASE_URL, echo=True)
-
-
-def create_db_and_tables() -> None:
-    """Create database and tables."""
-    SQLModel.metadata.create_all(engine)
+engine = create_engine(
+    settings.DATABASE_URL,
+    echo=True,
+    isolation_level="REPEATABLE READ",
+    # pool_size=settings.DATABASE_POOL_SIZE,
+    # max_overflow=settings.DATABASE_MAX_OVERFLOW,
+)

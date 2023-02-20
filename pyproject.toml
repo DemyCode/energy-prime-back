@@ -28,6 +28,7 @@ commitizen = "^2.40.0"
 mypy = "^0.991"
 bandit = "^1.7.4"
 pydocstyle = "^6.3.0"
+loguru = "^0.6.0"
 
 [tool.coverage.run]
 source = ["safeworld_data"]
