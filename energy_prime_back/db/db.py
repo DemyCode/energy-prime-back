@@ -4,7 +4,7 @@ from typing import Generator
 from sqlalchemy import create_engine
 from sqlmodel import Session
 
-from app.config import settings
+from energy_prime_back.config import settings
 
 if settings.DATABASE_URL is None:
     raise ValueError("Database not properly configured. Please check your .env file.")

@@ -4,7 +4,7 @@ version = "0.1.0"
 description = ""
 authors = ["DemyCode <verycols@gmail.com>"]
 readme = "README.md"
-# packages = [{ include = "energy_prime_back" }]
+packages = [{ include = "energy_prime_back" }]
 
 [tool.poetry.dependencies]
 python = "^3.10"
@@ -29,6 +29,7 @@ mypy = "^0.991"
 bandit = "^1.7.4"
 pydocstyle = "^6.3.0"
 loguru = "^0.6.0"
+ipykernel = "^6.21.2"
 
 [tool.coverage.run]
 source = ["safeworld_data"]

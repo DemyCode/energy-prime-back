@@ -7,9 +7,9 @@ from sqlmodel import Session, select
 
 from alembic import command
 from alembic.config import Config
-from app.config import settings
-from app.db.db import engine, get_session
-from app.db.models import User
+from energy_prime_back.config import settings
+from energy_prime_back.db.db import engine, get_session
+from energy_prime_back.db.models import User
 
 app = FastAPI()
 
@@ -55,3 +55,9 @@ def create_user(user: User, session: Session = Depends(get_session)) -> User:
         session.commit()
         session.refresh(user)
         return user
+
+
+if __name__ == "__main__":
+    import uvicorn
+
+    uvicorn.run("energy_prime_back.main:app", host="0.0.0.0", port=8000, reload=True, workers=1)

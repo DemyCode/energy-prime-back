@@ -17,4 +17,4 @@ COPY . /energy-prime-back
 COPY --from=builder /energy-prime-back/.venv /energy-prime-back/.venv
 ENV PATH=/energy-prime-back/.venv/bin:$PATH
 
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uvicorn", "energy_prime_back.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
