@@ -75,3 +75,10 @@ upload_to_release = true
 build_command = "pip install poetry && poetry build"
 commit_author = "energy-prime-back Build Service"
 repository = "energy-prime-back"
+
+[tool.isort]
+profile = "black"
+known_first_party = "energy_prime_back"
+known_third_party = "sqlmodel,sqlalchemy,starlette,fastapi,uvicorn,httpx,pydantic,alembic,psycopg2"
+sections = "FUTURE,STDLIB,THIRDPARTY,FIRSTPARTY,LOCALFOLDER"
+skip = "alembic"
