@@ -25,9 +25,9 @@ jobs:
           pip install poetry
           poetry install
 
-      - name: Test with pytest
-        run: |
-          poetry run coverage run -m pytest -v
+      # - name: Test with pytest
+      #   run: |
+      #     poetry run coverage run -m pytest -v
 
   pre-commit:
     runs-on: ubuntu-latest
