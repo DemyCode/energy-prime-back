@@ -35,9 +35,8 @@ jobs:
 
       - name: Create Release
         run: gh release create ${{ github.ref }} --title ${{ github.ref }} --notes "Release ${{ github.ref }}" dist/*.whl
-        # with:
-        #   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
+        env:
+          GH_TOKEN: ${{ github.token }}
 
   generate-client:
     needs: release
