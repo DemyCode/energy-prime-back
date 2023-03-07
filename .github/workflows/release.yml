@@ -13,6 +13,7 @@ jobs:
     uses: ./.github/workflows/ci.yml
 
   release:
+    name: Release on github
     needs: ci
     runs-on: ubuntu-latest
     steps:
@@ -36,3 +37,28 @@ jobs:
         run: gh release create ${{ github.ref }} --title ${{ github.ref }} --notes "Release ${{ github.ref }}" dist/*.whl
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  generate-client:
+    needs: release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install poetry
+          poetry install
+
+      - run: npm install @openapitools/openapi-generator-cli -g
+      - run: poetry run python energy_prime_back/generate_client.py
+      - run: npx @openapitools/openapi-generator-cli generate -i openapi.json -g ruby -o ./client-generated
+      - uses: actions/upload-artifact@v2
+        with:
+          name: client-generated
+          path: ./client-generated
