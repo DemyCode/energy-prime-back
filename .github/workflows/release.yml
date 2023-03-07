@@ -33,10 +33,15 @@ jobs:
         run: |
           poetry build --format wheel
 
-      - name: Create Release
-        run: gh release create ${{ github.ref }} --title ${{ github.ref }} --notes "Release ${{ github.ref }}" dist/*.whl
-        env:
-          GH_TOKEN: ${{ github.token }}
+      # - name: Create Release
+      #   run: gh release create ${{ github.ref }} --title ${{ github.ref }} --notes "Release ${{ github.ref }}" dist/*.whl
+      #   env:
+      #     GH_TOKEN: ${{ github.token }}
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: dist
+          path: ./dist
 
   generate-client:
     needs: release
