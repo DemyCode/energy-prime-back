@@ -17,6 +17,7 @@ pydantic = "^1.10.4"
 alembic = "^1.9.4"
 psycopg2 = "^2.9.5"
 python-jose = "^3.3.0"
+passlib = {extras = ["bcrypt"], version = "^1.7.4"}
 
 
 
@@ -32,6 +33,7 @@ bandit = "^1.7.4"
 pydocstyle = "^6.3.0"
 loguru = "^0.6.0"
 ipykernel = "^6.21.2"
+pyclean = "^2.7.0"
 
 [tool.coverage.run]
 source = ["safeworld_data"]
