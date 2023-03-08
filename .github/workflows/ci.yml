@@ -25,9 +25,13 @@ jobs:
           pip install poetry
           poetry install
 
-      # - name: Test with pytest
-      #   run: |
-      #     poetry run coverage run -m pytest -v
+      - name: Test with pytest
+        run: |
+          poetry run coverage run -m pytest -v
+        env:
+          DATABASE_URL: sqlite:///database.sqlite
+          CREATE_TABLES: True
+          ALCHEMY_UPGRADE: False
 
   pre-commit:
     runs-on: ubuntu-latest

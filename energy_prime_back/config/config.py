@@ -17,6 +17,7 @@ class Settings(BaseSettings):
     POSTGRES_PORT: Optional[str]
     POSTGRES_DB: Optional[str]
     DATABASE_URL: Optional[str]
+    # DATABASE_URL: Optional[str] = "sqlite:///database.sqlite"
 
     @validator("DATABASE_URL", pre=True)
     def assemble_db_connection(cls, v: Optional[str], values: dict) -> Optional[str]:
@@ -41,6 +42,17 @@ class Settings(BaseSettings):
             f"postgresql://{values.get('POSTGRES_USER')}:{values.get('POSTGRES_PASSWORD')}@"
             + f"{values.get('POSTGRES_SERVER')}:{values.get('POSTGRES_PORT')}/{values.get('POSTGRES_DB')}"
         )
+
+    ALCHEMY_UPGRADE: Optional[bool] = True
+
+    @validator("ALCHEMY_UPGRADE", pre=True)
+    def warn_alchemy_upgrade(cls, v: Optional[bool], values: dict) -> Optional[bool]:
+        """Warn about alembic upgrade."""
+        if v is not None and v is True and values.get("CREATE_TABLES") is True:
+            raise ValueError("Cannot set ALCHEMY_UPGRADE and CREATE_TABLES to True at the same time.")
+        return v
+
+    CREATE_TABLES: Optional[bool] = False
 
     class Config:
         """Configuration class."""

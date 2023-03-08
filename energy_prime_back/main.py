@@ -9,10 +9,10 @@ from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from jose import JWTError, jwt
 from loguru import logger
 from passlib.context import CryptContext
-from sqlmodel import Session, select
+from sqlmodel import Session, SQLModel, select
 
 from energy_prime_back.config import settings
-from energy_prime_back.db.db import get_session
+from energy_prime_back.db.db import engine, get_session
 from energy_prime_back.db.models import Token, TokenData, User, UserCreate
 
 # to get a string like this run:
@@ -23,19 +23,24 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
 app = FastAPI()
 
+if settings.ALCHEMY_UPGRADE:
 
-@app.on_event("startup")
-def alembic_upgrade() -> None:
-    """Upgrade the database to the latest version."""
-    logger.info("Attempting to upgrade alembic on startup")
-    try:
-        alembic_ini_path = Path(__file__).parent.parent / "alembic.ini"
-        alembic_cfg = Config(str(alembic_ini_path))
-        alembic_cfg.set_main_option("sqlalchemy.url", settings.DATABASE_URL)  # type: ignore
-        command.upgrade(alembic_cfg, "head")
-        logger.info("Successfully upgraded alembic on startup")
-    except Exception:
-        logger.exception("Alembic upgrade failed on startup")
+    @app.on_event("startup")
+    def alembic_upgrade() -> None:
+        """Upgrade the database to the latest version."""
+        logger.info("Attempting to upgrade alembic on startup")
+        try:
+            alembic_ini_path = Path(__file__).parent.parent / "alembic.ini"
+            alembic_cfg = Config(str(alembic_ini_path))
+            alembic_cfg.set_main_option("sqlalchemy.url", settings.DATABASE_URL)  # type: ignore
+            command.upgrade(alembic_cfg, "head")
+            logger.info("Successfully upgraded alembic on startup")
+        except Exception:
+            logger.exception("Alembic upgrade failed on startup")
+
+
+if settings.CREATE_TABLES:
+    SQLModel.metadata.create_all(engine)
 
 
 @app.get("/", response_model=dict[str, str])

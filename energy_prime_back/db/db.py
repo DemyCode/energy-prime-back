@@ -5,6 +5,7 @@ from sqlalchemy import create_engine
 from sqlmodel import Session
 
 from energy_prime_back.config import settings
+from energy_prime_back.db import models  # noqa: F401
 
 if settings.DATABASE_URL is None:
     raise ValueError("Database not properly configured. Please check your .env file.")
@@ -12,7 +13,7 @@ if settings.DATABASE_URL is None:
 engine = create_engine(
     settings.DATABASE_URL,
     echo=True,
-    isolation_level="REPEATABLE READ",
+    # isolation_level="REPEATABLE READ",
     # pool_size=settings.DATABASE_POOL_SIZE,
     # max_overflow=settings.DATABASE_MAX_OVERFLOW,
 )
