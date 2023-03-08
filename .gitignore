@@ -2,7 +2,6 @@ __pycache__
 .env
 dist
 .coverage
-client-generated
 openapi.json
 openapitools.json
 database.sqlite
