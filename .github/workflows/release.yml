@@ -72,11 +72,10 @@ jobs:
       - name: Pushes to another repository
         uses: cpina/github-action-push-to-another-repository@main
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_APP_KEY }}
+          API_TOKEN_GITHUB: ${{ secrets.GH_APP_KEY }}
         with:
           source-directory: client-generated
           destination-github-username: DemyCode
           destination-repository-name: energy-prime-ts-client
           user-email: verycols@gmail.com
           target-branch: master
-          # github-token: ${{ secrets.GH_APP_KEY }}
