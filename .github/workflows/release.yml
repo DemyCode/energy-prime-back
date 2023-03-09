@@ -44,7 +44,7 @@ jobs:
           path: ./dist
 
   generate-client:
-    needs: release
+    needs: ci
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -63,6 +63,7 @@ jobs:
       - run: npm install @openapitools/openapi-generator-cli -g
       - run: poetry run python energy_prime_back/generate_client.py
       - run: npx @openapitools/openapi-generator-cli generate -i openapi.json -g typescript-node -o ./client-generated
+
       - uses: actions/upload-artifact@v2
         with:
           name: client-generated
@@ -70,11 +71,12 @@ jobs:
 
       - name: Pushes to another repository
         uses: cpina/github-action-push-to-another-repository@main
-        # env:
-        #   API_TOKEN_GITHUB: ${{ secrets.GITHUB_TOKEN }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_APP_KEY }}
         with:
           source-directory: client-generated
-          destination-github-username: "DemyCode"
-          destination-repository-name: "energy-prime-ts-client"
-          user-email: "verycols@gmail.com"
+          destination-github-username: DemyCode
+          destination-repository-name: energy-prime-ts-client
+          user-email: verycols@gmail.com
           target-branch: master
+          # github-token: ${{ secrets.GH_APP_KEY }}
