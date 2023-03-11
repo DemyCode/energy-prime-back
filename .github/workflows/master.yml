@@ -66,7 +66,7 @@ jobs:
 
       - run: npm install @openapitools/openapi-generator-cli -g
       - run: poetry run python energy_prime_back/generate_client.py
-      - run: npx @openapitools/openapi-generator-cli generate -i openapi.json -g typescript-node -o ./client-generated
+      - run: npx @openapitools/openapi-generator-cli generate -i openapi.json -g typescript -o ./client-generated
 
       - uses: actions/upload-artifact@v2
         with:
