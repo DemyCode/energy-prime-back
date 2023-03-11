@@ -16,18 +16,31 @@ jobs:
     needs: ci
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v4
-        with:
-          python-version: "3.10"
       - name: Generate token for GitHub App
         id: generate-token
         uses: getsentry/action-github-app-token@v2.0.0
         with:
           app_id: ${{ secrets.GH_APP_ID }}
           private_key: ${{ secrets.GH_APP_KEY }}
+
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          token: ${{ steps.generate-token.outputs.token }}
+
+      - uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install poetry
+          poetry install
+
       - run: echo "need_release=$(poetry run semantic-release print-version | grep -q 'No' && echo false || echo true)" >> $GITHUB_OUTPUT
         id: need_release
+
       - name: Python Semantic Release
         if: steps.need_release.outputs.need_release == 'true'
         uses: relekang/python-semantic-release@master
