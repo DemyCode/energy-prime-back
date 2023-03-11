@@ -79,7 +79,7 @@ jobs:
       - name: Pushes to another repository
         uses: cpina/github-action-push-to-another-repository@main
         env:
-          SSH_DEPLOY_KEY: ${{ steps.generate-token.outputs.token }}
+          API_TOKEN: ${{ steps.generate-token.outputs.token }}
         with:
           source-directory: client-generated
           destination-github-username: DemyCode
