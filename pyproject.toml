@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "energy-prime-back"
-version = "0.1.1"
+version = "0.1.2"
 description = ""
 authors = ["DemyCode <verycols@gmail.com>"]
 readme = "README.md"
