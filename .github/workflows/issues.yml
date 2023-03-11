@@ -17,7 +17,9 @@ jobs:
           app_id: ${{ secrets.GH_APP_ID }}
           private_key: ${{ secrets.GH_APP_KEY }}
 
-      - run: echo ${{ steps.generate-token.outputs.token }} | gh auth login --with-token
+      - run: gh auth login
+        env:
+          GH_TOKEN: ${{ steps.generate-token.outputs.token }}
 
       - run: gh issue edit ${{ github.event.issue.number }} --add-project energy_prime
         env:
