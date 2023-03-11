@@ -32,38 +32,7 @@ jobs:
         if: steps.need_release.outputs.need_release == 'true'
         uses: relekang/python-semantic-release@master
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-
-  release:
-    name: Release on github
-    needs: ci
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-
-      - uses: actions/setup-python@v4
-        with:
-          python-version: "3.10"
-
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install poetry
-          poetry install
-
-      - name: Build and publish
-        run: |
-          poetry build --format wheel
-
-      # - name: Create Release
-      #   run: gh release create ${{ github.ref }} --title ${{ github.ref }} --notes "Release ${{ github.ref }}" dist/*.whl
-      #   env:
-      #     GH_TOKEN: ${{ github.token }}
-
-      - uses: actions/upload-artifact@v2
-        with:
-          name: dist
-          path: ./dist
+          github_token: ${{ steps.generate-token.outputs.token }}
 
   generate-client:
     needs: ci
