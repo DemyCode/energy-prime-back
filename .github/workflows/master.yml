@@ -86,7 +86,7 @@ jobs:
           API_TOKEN_GITHUB: ${{ steps.generate-token.outputs.token }}
         with:
           source-directory: client-generated
-          destination-github-username: Energy Prime App
+          destination-github-username: DemyCode
           destination-repository-name: energy-prime-ts-client
           user-email: verycols@gmail.com
           target-branch: master
