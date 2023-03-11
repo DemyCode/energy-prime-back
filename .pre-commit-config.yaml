@@ -39,6 +39,7 @@ repos:
             psycopg2,
             pydantic,
             sqlalchemy-stubs,
+            types-setuptools
           ]
 
   - repo: https://github.com/pycqa/flake8

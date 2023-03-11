@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "energy-prime-back"
-version = "0.1.0"
+version = "0.0.0"
 description = ""
 authors = ["DemyCode <verycols@gmail.com>"]
 readme = "README.md"
@@ -19,6 +19,7 @@ psycopg2 = "^2.9.5"
 python-jose = "^3.3.0"
 passlib = {extras = ["bcrypt"], version = "^1.7.4"}
 python-multipart = "^0.0.6"
+types-setuptools = "^67.6.0.0"
 
 
 
@@ -35,6 +36,7 @@ pydocstyle = "^6.3.0"
 loguru = "^0.6.0"
 ipykernel = "^6.21.2"
 pyclean = "^2.7.0"
+python-semantic-release = "^7.33.2"
 
 [tool.coverage.run]
 source = ["safeworld_data"]
@@ -72,9 +74,8 @@ build-backend = "poetry.core.masonry.api"
 [tool.semantic_release]
 version_variable = [
   "pyproject.toml:version",
-  "safeworld_data/__version__.py:__VERSION__",
 ]
-branch = "main"
+branch = "master"
 upload_to_repository = false
 upload_to_release = true
 build_command = "pip install poetry && poetry build"

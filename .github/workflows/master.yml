@@ -1,4 +1,4 @@
-name: Release
+name: Master
 
 on:
   push:
@@ -6,11 +6,33 @@ on:
       - master
 
 concurrency:
-  group: release-${{ github.ref }}
+  group: master-${{ github.ref }}
 
 jobs:
   ci:
     uses: ./.github/workflows/ci.yml
+
+  semantic-github-release:
+    needs: ci
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+      - name: Generate token for GitHub App
+        id: generate-token
+        uses: getsentry/action-github-app-token@v2.0.0
+        with:
+          app_id: ${{ secrets.GH_APP_ID }}
+          private_key: ${{ secrets.GH_APP_KEY }}
+      - run: echo "need_release=$(poetry run semantic-release print-version | grep -q 'No' && echo false || echo true)" >> $GITHUB_OUTPUT
+        id: need_release
+      - name: Python Semantic Release
+        if: steps.need_release.outputs.need_release == 'true'
+        uses: relekang/python-semantic-release@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
 
   release:
     name: Release on github
@@ -82,7 +104,7 @@ jobs:
           API_TOKEN_GITHUB: ${{ steps.generate-token.outputs.token }}
         with:
           source-directory: client-generated
-          destination-github-username: DemyCode
+          destination-github-username: Energy Prime App
           destination-repository-name: energy-prime-ts-client
           user-email: verycols@gmail.com
           target-branch: master
