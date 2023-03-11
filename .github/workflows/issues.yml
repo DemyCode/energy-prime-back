@@ -20,3 +20,5 @@ jobs:
       - run: echo ${{ steps.generate-token.outputs.token }} | gh auth login --with-token
 
       - run: gh issue edit ${{ github.event.issue.number }} --add-project energy_prime
+        env:
+          GH_TOKEN: ${{ steps.generate-token.outputs.token }}

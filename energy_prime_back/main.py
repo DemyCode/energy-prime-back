@@ -49,12 +49,6 @@ def root() -> dict[str, str]:
     return {"msg": "Hello World"}
 
 
-@app.get("/ping", response_model=dict[str, str])
-async def ping() -> dict[str, str]:
-    """Ping endpoint for the FastAPI application."""
-    return {"ping": "pong"}
-
-
 def create_access_token(data: dict, expires_delta: timedelta | None = None):
     to_encode = data.copy()
     if expires_delta:
